@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "client"
+}
+datasource db {
+  provider = "postgresql"
+}
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  passwordHash String
+  createdAt DateTime @default(now())
+  sessions Session[]
+  leads Lead[]
+  imports ImportBatch[]
+  audits AuditLog[]
+  suppressions Suppression[]
+  settings WorkspaceSettings?
+}
+model Session {
+  id String @id
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  @@index([userId])
+}
+model LoginAttempt {
+  key String @id
+  count Int @default(1)
+  resetAt DateTime
+}
+model Lead {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone String
+  businessName String?
+  website String?
+  email String?
+  industry String?
+  country String @default("US")
+  state String?
+  source String?
+  sourceUrl String?
+  researchStatus String @default("unresolved")
+  outreachStatus String @default("not_contacted")
+  lastContactAt DateTime?
+  notes String?
+  confidence Int?
+  verifiedAt DateTime?
+  discoveredAt DateTime?
+  importId String?
+  importBatch ImportBatch? @relation(fields: [importId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([userId, phone])
+  @@unique([userId, email])
+  @@index([userId, researchStatus, createdAt])
+}
+model ImportBatch {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fileName String
+  total Int
+  imported Int
+  skipped Int
+  errors Int
+  createdAt DateTime @default(now())
+  leads Lead[]
+  @@index([userId, createdAt])
+}
+model AuditLog {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action String
+  entityId String?
+  details Json?
+  createdAt DateTime @default(now())
+  @@index([userId, createdAt])
+}
+model Suppression {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  email String
+  reason String
+  createdAt DateTime @default(now())
+  @@unique([userId, email])
+}
+model WorkspaceSettings {
+  userId String @id
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  senderName String @default("Max")
+  postalAddress String @default("")
+  mode String @default("research_only")
+  monthlyBudget Int @default(10)
+  updatedAt DateTime @updatedAt
+}
