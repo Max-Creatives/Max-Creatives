@@ -18,9 +18,11 @@ type Settings = {
 export function SettingsForm({
   settings,
   suppressed,
+  searchConfigured = false,
 }: {
   settings: Settings;
   suppressed: number;
+  searchConfigured?: boolean;
 }) {
   const [busy, setBusy] = useState(false),
     [message, setMessage] = useState(""),
@@ -115,8 +117,8 @@ export function SettingsForm({
               </select>
             </label>
             <p className="mt-2 text-[10px] leading-5 text-zinc-400">
-              Saved for future agent phases. Phase 1 does not make AI requests
-              or send messages.
+              Research is available. AI drafting is a later phase; no messages
+              are sent.
             </p>
             <label className="mt-5 block text-xs font-medium">
               Monthly AI budget (USD)
@@ -161,8 +163,7 @@ export function SettingsForm({
             </p>
             <p className="mt-5 border-t border-zinc-100 pt-4 text-xs leading-6 text-zinc-500">
               Mark a lead “Do not contact” to exclude it and preserve its email
-              on your suppression list. No sending functionality is enabled in
-              Phase 1.
+              on your suppression list. No sending functionality is enabled.
             </p>
           </section>
           <section className="panel p-6">
@@ -174,7 +175,13 @@ export function SettingsForm({
               ["PostgreSQL", "Connected · application data", true],
               ["Gmail", "Phase 4 · not connected", false],
               ["AI provider", "Phase 3 · not configured", false],
-              ["Business search", "Phase 2 · not configured", false],
+              [
+                "Business search",
+                searchConfigured
+                  ? "Key configured · verify with a research batch"
+                  : "Add a Brave Search API key in Render",
+                searchConfigured,
+              ],
             ].map(([name, description, connected]) => (
               <div
                 key={String(name)}

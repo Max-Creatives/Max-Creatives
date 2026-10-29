@@ -2,9 +2,13 @@
 
 A private lead workspace for an AI video creator, built with Next.js, TypeScript, Tailwind CSS, shadcn/ui-style components, PostgreSQL and Prisma ORM.
 
-**Phase 1 is implemented:** authentication, CSV preview/import, persisted lead dashboard, search/filter/pagination, editing, spreadsheet-safe export, contact exclusion, settings, basic analytics and audit records. These features require no paid AI or email services. Future module pages are explicitly labeled; they do not simulate research, generated pitches, or Gmail activity.
+**Phase 1 is implemented:** authentication, CSV preview/import, persisted lead dashboard, search/filter/pagination, editing, spreadsheet-safe export, contact exclusion, settings, basic analytics and audit records. These features require no paid AI or email services. Later AI-pitch/Gmail modules remain explicitly labeled; no provider results are simulated in production.
 
 This was originally a GitHub profile repository. Its profile text is preserved in [docs/PROFILE.md](docs/PROFILE.md).
+
+## Research and email discovery
+
+The Phase 2 research queue and review screens are implemented. Configure a server-side Brave Search API key in Render for phone-only lookup, open **Research Agent**, and try one lead. Supplied HTTPS business websites can be checked without a search key. Keep the page open on free hosting, inspect the recorded sources, then choose an email and explicitly approve the business match. Gmail sending is not enabled. See [research setup, costs and limitations](docs/RESEARCH.md). Tests use synthetic sources; real provider results require a separate live check.
 
 ## Setup
 
@@ -95,12 +99,12 @@ For future schema changes, generate a new incremental SQL migration with Prisma 
 | Phase | Scope                                                | Status and prerequisites                                                                                      |
 | ----- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | 1     | Database, auth, import and lead dashboard            | Implemented; needs PostgreSQL and your administrator account                                                  |
-| 2     | Business research and email discovery                | Not implemented; needs permitted public data/search and website access                                        |
+| 2     | Business research and email discovery                | Implemented with synthetic-source tests; live phone lookup needs a Brave key and authorized-data validation   |
 | 3     | AI pitches and approval queue                        | Not implemented; needs separately billed OpenAI API access or a reachable local model                         |
 | 4     | Gmail OAuth, drafts, safeguards and replies          | Not implemented; needs Google OAuth credentials/account authorization, opt-out handling and compliance review |
-| 5     | Durable jobs, retries, schedules, campaign analytics | Not implemented; basic import analytics and deployment instructions are included in Phase 1                   |
+| 5     | Durable jobs, retries, schedules, campaign analytics | Research queue/retries implemented; scheduled outreach and campaign reporting remain future work              |
 
-No Twilio, n8n, Make, Zapier or WhatsApp is used. Public email availability does not automatically authorize marketing. No sending endpoint exists. Postal address, workspace mode and budget are saved planning preferences, not a completed compliance engine, spend enforcement or working agent. Gmail token encryption must be implemented before storing any OAuth credentials.
+No Twilio, n8n, Make, Zapier or WhatsApp is used. Public email availability does not automatically authorize marketing. No sending endpoint exists. Postal address, workspace mode and budget are saved planning preferences, not a completed compliance engine or dollar-budget enforcement. Gmail token encryption must be implemented before storing any OAuth credentials.
 
 ## Costs
 
@@ -108,6 +112,6 @@ No Twilio, n8n, Make, Zapier or WhatsApp is used. Public email availability does
 - Hosting still requires compute, PostgreSQL storage, backups and usually a domain. Free managed tiers have limits and may sleep. Check current provider pricing; a small paid deployment may cost roughly $10–$40/month before usage/backups, depending on provider.
 - Future OpenAI API billing is **separate from ChatGPT subscriptions**. Local models avoid per-token charges but need hardware, RAM, electricity and possibly paid GPU hosting.
 - Search/business data may incur per-query fees and has source-specific terms. Gmail has account quotas, policies and OAuth verification requirements even if API access has no separate per-message charge.
-- Budget preferences do not yet enforce spend. Phase 1 makes no AI, search or email-provider calls.
+- Budget preferences do not yet enforce spend. Lead management makes no paid-provider calls. User-started phone research can call the configured Brave API within the separate research request cap; no AI model or email provider is called.
 
 This phase is a tested foundation, not the completed outreach automation platform.

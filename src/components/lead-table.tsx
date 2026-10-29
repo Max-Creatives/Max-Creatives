@@ -121,6 +121,7 @@ export function LeadTable({
               <option value="">All leads</option>
               <option value="unresolved">Unresolved</option>
               <option value="manual_review">Needs review</option>
+              <option value="verified">Verified business</option>
               <option value="has_email">Has email</option>
               <option value="do_not_contact">Do not contact</option>
             </select>
@@ -181,11 +182,13 @@ export function LeadTable({
                     <td className="text-zinc-500">{lead.industry || "—"}</td>
                     <td>
                       <span
-                        className={`whitespace-nowrap rounded-md px-2 py-1 text-[10px] ${lead.researchStatus === "manual_review" ? "bg-indigo-50 text-indigo-600" : "bg-amber-50 text-amber-700"}`}
+                        className={`whitespace-nowrap rounded-md px-2 py-1 text-[10px] ${lead.researchStatus === "verified" ? "bg-emerald-50 text-emerald-700" : lead.researchStatus === "manual_review" ? "bg-indigo-50 text-indigo-600" : "bg-amber-50 text-amber-700"}`}
                       >
-                        {lead.researchStatus === "manual_review"
-                          ? "Needs review"
-                          : "Unresolved"}
+                        {lead.researchStatus === "verified"
+                          ? "Verified business"
+                          : lead.researchStatus === "manual_review"
+                            ? "Needs review"
+                            : "Unresolved"}
                       </span>
                     </td>
                     <td>

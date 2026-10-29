@@ -26,12 +26,11 @@ import { cn } from "@/lib/utils";
 const nav = [
   { href: "/", name: "Overview", icon: LayoutDashboard },
   { href: "/leads", name: "Leads", icon: Users },
-  { href: "/research", name: "Research Agent", icon: ScanSearch, later: true },
+  { href: "/research", name: "Research Agent", icon: ScanSearch },
   {
     href: "/discovery",
     name: "Email Discovery",
     icon: MailSearch,
-    later: true,
   },
   { href: "/pitches", name: "AI Pitch Generator", icon: Sparkles, later: true },
   { href: "/campaigns", name: "Campaigns", icon: Send, later: true },
@@ -216,7 +215,7 @@ export function Shell({
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1.5 rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-[10px] text-zinc-500">
               <span className="size-1.5 rounded-full bg-emerald-500" />
-              Phase 1 · Lead workspace
+              Lead research workspace
             </span>
             <div className="hidden h-5 w-px bg-zinc-200 sm:block" />
             <span className="hidden text-xs text-zinc-500 sm:block">

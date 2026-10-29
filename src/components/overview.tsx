@@ -248,8 +248,8 @@ export function Overview({ stats }: { stats: Stats }) {
           </div>
           <div className="flex items-center gap-2 rounded-b-xl border-t border-zinc-100 bg-zinc-50/50 px-5 py-3 text-[10px] leading-4 text-zinc-400">
             <ShieldCheck size={13} className="shrink-0" />
-            Research, drafting, and sending arrive in later phases. No outreach
-            has been sent.
+            Research findings require your review. Drafting and sending arrive
+            in later phases. No outreach has been sent.
           </div>
         </section>
         <section className="panel p-5">

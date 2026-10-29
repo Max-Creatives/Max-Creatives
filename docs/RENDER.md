@@ -14,4 +14,4 @@ The blueprint's database accepts private Render connections only. A hosted datab
 
 Free web services can sleep. Free database availability, expiration, storage and backup limits depend on Render's current offering; review these before storing important contacts. Use an appropriate paid database and off-host backups for ongoing business use. If free resources are unavailable, deployment must wait for your plan choice rather than silently creating paid resources.
 
-This deploys Phase 1 lead management. It does not enable Gmail sending, business research, or AI generation. A successful deployment must be verified with the live health endpoint, login, import and logout before a public link is reported as working.
+This deploys lead management and the research/review workflow. Phone-only lookup needs a separately configured Brave Search API key; see RESEARCH.md. Gmail sending and AI pitch generation remain unavailable. A successful deployment must be verified with the live health endpoint, login, import and logout before a public link is reported as working.

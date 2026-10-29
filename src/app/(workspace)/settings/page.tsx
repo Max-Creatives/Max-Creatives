@@ -19,6 +19,7 @@ export default async function Settings() {
         }
       }
       suppressed={suppressed}
+      searchConfigured={!!process.env.BRAVE_SEARCH_API_KEY}
     />
   );
 }

@@ -16,6 +16,8 @@ model User {
   audits AuditLog[]
   suppressions Suppression[]
   settings WorkspaceSettings?
+  researchBatches ResearchBatch[]
+  searchUsage SearchUsage[]
 }
 model Session {
   id String @id
@@ -53,6 +55,7 @@ model Lead {
   importBatch ImportBatch? @relation(fields: [importId], references: [id], onDelete: SetNull)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  researchJobs ResearchJob[]
   @@unique([userId, phone])
   @@unique([userId, email])
   @@index([userId, researchStatus, createdAt])
@@ -97,4 +100,64 @@ model WorkspaceSettings {
   mode String @default("research_only")
   monthlyBudget Int @default(10)
   updatedAt DateTime @updatedAt
+}
+model ResearchBatch {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status String @default("running")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  jobs ResearchJob[]
+  @@index([userId, createdAt])
+}
+model ResearchJob {
+  id String @id @default(cuid())
+  batchId String
+  batch ResearchBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  leadId String
+  lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  status String @default("queued")
+  attempts Int @default(0)
+  availableAt DateTime @default(now())
+  leaseUntil DateTime?
+  leaseToken String?
+  error String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  candidates ResearchCandidate[]
+  logs ResearchLog[]
+  @@unique([batchId, leadId])
+  @@index([status, availableAt])
+}
+model ResearchCandidate {
+  id String @id @default(cuid())
+  jobId String
+  job ResearchJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  businessName String?
+  website String
+  phoneMatched Boolean
+  confidence Int
+  evidence Json
+  reviewedAt DateTime?
+  decision String?
+  createdAt DateTime @default(now())
+  @@index([jobId])
+}
+model ResearchLog {
+  id String @id @default(cuid())
+  jobId String
+  job ResearchJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  stage String
+  message String
+  createdAt DateTime @default(now())
+  @@index([jobId, createdAt])
+}
+model SearchUsage {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  month String
+  requests Int @default(0)
+  @@unique([userId, month])
 }

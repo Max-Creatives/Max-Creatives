@@ -43,6 +43,7 @@ export async function queryLeads(
   const status = [
     "unresolved",
     "manual_review",
+    "verified",
     "do_not_contact",
     "has_email",
   ].includes(params.status || "")

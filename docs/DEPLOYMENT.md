@@ -2,7 +2,7 @@
 
 ## Deployment
 
-Run Next.js on a Node.js 24 host with private PostgreSQL (tested with PostgreSQL 17). Phase 1 needs no Redis, AI API, Gmail, or background worker. Future job automation needs a separate durable worker; it does not exist yet.
+Run Next.js on a Node.js 24 host with private PostgreSQL (tested with PostgreSQL 17). Phase 1 needs no Redis, AI API, Gmail, or background worker. Research now has an optional separately supervised worker (`npm run research:worker`); free hosting processes research while its page stays open. Scheduled campaign automation is not implemented.
 
 1. Provision a PostgreSQL database with verified TLS, encryption at rest, restricted access and automated backups.
 2. Configure server-side DATABASE*URL and APP_URL, the exact public HTTPS origin. Preview deployments need their own correct APP_URL. Never expose credentials through NEXT_PUBLIC* variables.
